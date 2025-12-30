@@ -1,0 +1,9 @@
+openapi: 3.0.1
+info:
+  title: ResearchGroupAPI
+  description: API Definition of ResearchGroupAPI
+  version: 1.0.0
+servers:
+- url: http://localhost:8290/research-groups/v1/1.0.0
+- url: https://localhost:8253/research-groups/v1/1.0.0
+paths: {}

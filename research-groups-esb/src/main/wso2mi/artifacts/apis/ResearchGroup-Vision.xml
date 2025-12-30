@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/research-groups/v/vision/" name="ResearchGroup-Vision" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET" uri-template="/">
+        <inSequence>
+            <respond/>
+        </inSequence>
+        <faultSequence>
+        </faultSequence>
+    </resource>
+    <resource methods="GET" uri-template="/publications">
+        <inSequence>
+            <call>
+                <endpoint key="publications-filter-by-research-group"/>
+            </call>
+            <payloadFactory media-type="json">
+                <format>
+                    {
+                        "status": "success",
+                        "researchGroup": "vision",
+                        "publications": ${payload}
+                    }
+                </format>
+            </payloadFactory>
+            <log category="INFO">
+                <message>Publications retrieved and transformed successfully</message>
+            </log>
+            <respond/>
+        </inSequence>
+        <faultSequence>
+            <log category="ERROR">
+                <message>Error retrieving publications: ${props.synapse.ERROR_MESSAGE}</message>
+            </log>
+            <payloadFactory media-type="json">
+                <format>
+                    {
+                        "status": "error",
+                        "message": "${props.synapse.ERROR_MESSAGE}"
+                    }
+                </format>
+            </payloadFactory>
+            <respond/>
+        </faultSequence>
+    </resource>
+</api>
